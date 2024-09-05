@@ -1,8 +1,9 @@
 body {
-    background-size: cover;
-    margin-left: 0px;
-    margin-right: 0px;
+    
     background-color: rgb(180, 255, 176);
+    background-image: url("./imagenes/fondo.jpg");
+    background-repeat: repeat;
+    background-size: cover;
 }
 
 tbody tr:nth-child(odd) {
@@ -27,6 +28,7 @@ table {
 
 .principal {
     display: flex;
+    background-color: rgba(255, 255, 255, 0.40);
 
 }
 
@@ -43,7 +45,7 @@ table {
 .contenido {
     display: flex;
     flex: 5;
-
+    
     align-items: center;
     flex-direction: column;
 }
