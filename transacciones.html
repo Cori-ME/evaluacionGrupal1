@@ -59,28 +59,28 @@
             <div class="superior">
                 <div class="titulo">TRANSACCIONES</div>
                 <div class="contenedorTexto">
-                    <div class="etiquetaTexto">CAMPO 1</div>
+                    <div class="etiquetaTexto">NUMERO DE CUENTA</div>
                     <div class="cajaTexto">
-                        <input type="text" class="caja" id="txtCuenta" />
-                        <div class="error" id="lblErrores"></div>
+                        <input type="text" class="caja" id="lblNumeroCuenta" />
                     </div>
                 </div>
                 <div class="contenedorAcciones">
-                    <input type="button" value="BUSCAR" id="btnBuscar" onclick="ejecutarBusqueda();" />
+                    <input type="button" value="BUSCAR" onclick="ejecutarBusqueda();"/>
                 </div>
                 <div class="contenedorTexto">
-                    <div class="etiquetaTexto">CAMPO 2</div>
+                    <div class="etiquetaTexto">MONTO</div>
                     <div class="cajaTexto">
-                        <input type="text" class="caja" id="txtMonto"/>
-                        <div class="error" id="lblErrores"></div>
+                        <input type="text" class="caja" id="lblMonto" />
                     </div>
                 </div>
                 <div class="contenedorAcciones">
-                    <input type="button" value="DEPOSITAR" id="btnDepositar"  onclick="ejecutarDeposito();"/>
-                    <input type="button" value="RETIRAR" id="btnRetirar" onclick="retirar();"/>
+                    <input type="button" value="DEPOSITAR" id="lblDepositar" onclick="ejecutarDeposito();"/>
+                    <input type="button" value="RETIRAR" id="lblRetirar" onclick="ejecutarRetiro();"/>
                     
                 </div>
-              
+                <div class="inferior" id="lblTabla">
+                    
+                </div>
             </div>
         </div>
         <div class="contenido" id="divMovimientos">

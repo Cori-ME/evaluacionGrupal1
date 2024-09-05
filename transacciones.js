@@ -3,97 +3,99 @@ cuentas=[
     {numeroCuenta:"02345211",cedula:"1281238233",nombre:"Felipe",apellido:"Caicedo",saldo:0.0}
 ]
 
-
 cargar=function(){
     mostrarComponente("divTransacciones");
     ocultarComponente("divCuentas");
     ocultarComponente("divMovimientos");
-    
-
+    deshabilitarComponente("lblDepositar");
+    deshabilitarComponente("lblRetirar");
+    deshabilitarComponente("lblMonto");
+    mostrarTransacciones();
 }
-/*
-    Busca la cuenta en el arreglo en función del número de cuenta,
-    si existe retorna el objeto cuenta, caso contrario retorna null. 
-*/
+
 buscarCuenta=function(numeroCuenta){
-
-    let cuenta=recuperarTexto("txtCuenta");
-    for(let i=0;i<cuentas,length;i++){
-        cuenta=cuentas[i];
-        if(isNaN(cuenta)){
-             cuenta = {};
-               cuenta.numeroCuenta=numeroCuenta,
-                cuenta.cedula=cedula,
-                cuenta.nombre=nombre,
-                cuenta.apellido=apellido,
-                cuenta.saldo=saldo;
-            
-
-            mostrarTexto("lblErrores"+ cuenta) 
-        }else{
-           mostrarTexto("lblErrores","CUENTA INEXISTENTE") 
-    
+    let cuenta=null;
+    let elementoCliente;
+    for(let i=0;i<cuentas.length;i++){
+        elementoCliente=cuentas[i];
+        if(elementoCliente.numeroCuenta==numeroCuenta){
+            cuenta=elementoCliente;
         }
-        habilitarComponente("btnDepositar");
-            habilitarComponente("btnRetirar")
-            habilitarComponente("txtMonto");
-            habilitarComponente("btnBuscar");
     }
-    
+    if(cuenta!=null){
+        return cuenta;
+    }else{
+        return cuenta;
+    }
+
 }
 
 ejecutarBusqueda=function(){
-    
-    let numeroCuenta=recuperarInt("txtCuenta");
-    
-    let resultado;
-    resultado=buscarCuenta();
-    if(resultado!==null){
-        mostrarTexto("lblErrores" ,"FELICIDADES CUENTA ENCONTRADA"+numeroCuenta);
+    let numeroDeCuenta=recuperarTexto("lblNumeroCuenta");
+    let cuentaEncontrado=buscarCuenta(numeroDeCuenta);
+    if(cuentaEncontrado!=null){
+        mostrarTransacciones(numeroDeCuenta);
+        habilitarComponente("lblMonto");
+        habilitarComponente("lblDepositar");
+        habilitarComponente("lblRetirar");
     }else{
-        alert("NO SE ENCONTRO LA CUENTA ");
+        alert("CUENTA INEXISTENTE");
     }
-
-    //toma el numero de cuenta de la caja de texto
-    //invoca a buscarCuenta y guarda el resultado en una variable
-    //Si el resultado es diferente de null, muestra en pantalla, caso contrario muestra un alert
 }
 
 depositar=function(numeroCuenta,monto){
-
-    let cuentaAfectada=buscarCuenta(numeroCuenta);
-    cuentas.saldo+=monto;
-
-    //invoca a buscarCuenta, guarda el resultado en la variable cuentaAfectada;
-    //Al saldo actual de la cuenta afectada, le suma el monto que recibe como parámetro
+    let cuentaAfectada;
+    cuentaAfectada=buscarCuenta(numeroCuenta);
+    cuentaAfectada.saldo=cuentaAfectada.saldo+monto
+    return cuentaAfectada;
 }
 
 ejecutarDeposito=function(){
-    
-    let numeroCuenta=recuperarInt("txtCuenta");
-    //Toma el numero de cuenta ingresado en la caja de texto
-    let monto=recuperarInt("txtMonto");
-    //Toma el monto ingresado en la caja de texto
-    depositar();
-    //invoca a depositar
-    alert("TRANSACION EXITOSA");
-   
-    //Muestra un mensaje TRANSACCION EXITOSA
-    //Muestra en pantalla el nuevo saldo de la cuenta
+    let numeroDeCuenta=recuperarTexto("lblNumeroCuenta");
+    let monto=recuperarInt("lblMonto");
+    let depositadoMonto=depositar(numeroDeCuenta,monto);
+    alert("TRANSACCION EXITOSA")
+    mostrarTransacciones(depositadoMonto.numeroCuenta);
 }
 
 
 retirar=function(numeroCuenta,monto){
-    let cuentaAfectada=buscarCuenta(numeroCuenta);
-    if(isNaN(cuentas.saldo>monto)){
-        cuentas.saldo-=monto;
-        mostrarTexto("lblErrores", "TRANSACCION EXITOSA" +cuentas.saldo);
+    let cuentaAfectada;
+    cuentaAfectada=buscarCuenta(numeroCuenta);
+    if(cuentaAfectada.saldo>monto){
+        cuentaAfectada.saldo=cuentaAfectada.saldo-monto
+        alert("TRANSACCION EXITOSA")
+        return cuentaAfectada;
     }else{
         alert("SALDO INSUFICIENTE")
     }
-    //invoca a buscarCuenta, guarda el resultado en la variable cuentaAfectada;
-    //Valida si la cuenta tiene el saldo suficiente para retirar el monto
-    //Si el saldo es suficiente,al saldo actual de la cuenta afectada, le resta el monto que recibe como parámetro
-    //Si el saldo no es suficiente, muestra un alert SALDO INSUFICIENTE
-    //Si logra retirar muestra un mensaje TRANSACCION EXITOSA y muestra en pantalla el nuevo saldo de la cuenta
+}
+ejecutarRetiro=function(){
+    let numeroDeCuenta=recuperarTexto("lblNumeroCuenta");
+    let monto=recuperarInt("lblMonto");
+    let retiroMonto=retirar(numeroDeCuenta,monto);
+    mostrarTransacciones(retiroMonto.numeroCuenta);
+}
+
+//Para mostrar en pantalla los datos
+mostrarTransacciones=function(numeroCuenta){
+    let cmpTabla=document.getElementById("lblTabla");
+    let contenidoTabla="<table id=\"contenidoTabla\"><tr>"+
+    "<th>CEDULA</th>"+
+    "<th>NOMBRES COMPLETOS</th>"+
+    "<th>SALDO </th>"+
+    "</tr>"
+    let elementoCuenta;
+    for(let i=0;i<cuentas.length;i++){
+        elementoCuenta=cuentas[i]
+        if(elementoCuenta.numeroCuenta==numeroCuenta){
+            contenidoTabla+=
+            "<tr><td>"+elementoCuenta.cedula+"</td>"+
+            "<td>"+elementoCuenta.nombre+" "+elementoCuenta.apellido+"</td>"+
+            "<td>"+elementoCuenta.saldo+"</td></tr>"
+        }
+    }
+    contenidoTabla+="</table>"
+    cmpTabla.innerHTML=contenidoTabla;
+
 }
